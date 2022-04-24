@@ -10,31 +10,33 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('groups_app', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Faculty',
+            name='Subject',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
+                ('semester', models.IntegerField(validators=[django.core.validators.MaxValueValidator(12), django.core.validators.MinValueValidator(1)])),
             ],
         ),
         migrations.CreateModel(
-            name='Speciality',
+            name='Student',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('faculty', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='groups_app.faculty')),
+                ('fullname', models.CharField(max_length=150)),
+                ('group', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='groups_app.group')),
             ],
         ),
         migrations.CreateModel(
-            name='Group',
+            name='Mark',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.IntegerField(validators=[django.core.validators.MaxValueValidator(100), django.core.validators.MinValueValidator(10)])),
-                ('year', models.IntegerField(validators=[django.core.validators.MaxValueValidator(6), django.core.validators.MinValueValidator(1)])),
-                ('speciality', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='groups_app.speciality')),
+                ('mark', models.IntegerField(validators=[django.core.validators.MaxValueValidator(10), django.core.validators.MinValueValidator(1)])),
+                ('student', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='marks.student')),
+                ('subject', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='marks.subject')),
             ],
         ),
     ]
