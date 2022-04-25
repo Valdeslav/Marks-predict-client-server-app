@@ -16,10 +16,12 @@
                 {% endfor %}
             <thead/>
             <tbody>
-                {% for student in students %}
+                {% for marks_arr in marks %}
                 <tr>
-                    <td>{{ student }}</td>
-                    <td></td>
+                    <td>{{ marks_arr.student }}</td>
+                {% for mark in marks_arr %}
+                    <td>{{ mark.mark }}</td>
+                {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>
