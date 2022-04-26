@@ -7,6 +7,12 @@
 {% block content %}
     <div>
     <h2>{{ group.number }} - {{ group.speciality }}</h2>
+            {% if status %}
+                <div>
+                    <p><span>Данные успешно загружены</span></p>
+            {% endif %}
+
+    </div>
         <table border="1">
             <caption>Список студентов</caption>
             <thead>
@@ -26,5 +32,13 @@
                 {% endfor %}
             </tbody>
         </table>
+    <div>
+        <p><span>Импортировать данные об оценках из файла</span></p>
+        <form action="/structure/group/{{ group.pk }}/upload/" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ file_form }}
+            <input type="submit" value="импорт">
+        </form>
+    </div>
     </div>
 {% endblock content %}
