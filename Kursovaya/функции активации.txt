@@ -1,0 +1,9 @@
+keras.activations.relu
+keras.activations.sigmoid
+keras.activations.softmax   //выходной
+keras.activations.softplus
+keras.activations.softsign
+keras.activations.tanh
+keras.activations.selu
+keras.activations.elu
+keras.activations.exponential

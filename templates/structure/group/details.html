@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ group.number }} group{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% static "css/table.css" %}"/>
+{% endblock head %}
+{% block content %}
+    <div>
+    <h2>{{ group.number }} - {{ group.speciality }}</h2>
+            {% if status %}
+                <div>
+                    <p><span>Данные успешно загружены</span></p>
+            {% endif %}
+
+    </div>
+        <table border="1">
+            <caption>Список студентов</caption>
+            <thead>
+                <th>Имя студента</th>
+                {% for subject in subjects %}
+                    <th>{{ subject }}</th>
+                {% endfor %}
+            <thead/>
+            <tbody>
+                {% for marks_arr in marks %}
+                <tr>
+                    <td>{{ marks_arr.student }}</td>
+                {% for mark in marks_arr %}
+                    <td>{{ mark.mark }}</td>
+                {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <div>
+        <p><span>Импортировать данные об оценках из файла</span></p>
+        <form action="/structure/group/{{ group.pk }}/upload/" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ file_form }}
+            <input type="submit" value="импорт">
+        </form>
+    </div>
+    </div>
+{% endblock content %}

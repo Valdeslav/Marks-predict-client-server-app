@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Faculties{% endblock title %}
+{% block content %}
+    <div>
+        <table>
+            <tr>
+                <th>Список факультетов</th>
+            </tr>
+            {% for faculty in faculties %}
+            <tr>
+                <td><a href="/structure/faculty/{{ faculty.id }}/group/list/">{{ faculty.name }}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock content %}

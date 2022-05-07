@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Groups{% endblock title %}
+{% block content %}
+    <div>
+        <table>
+            <tr>
+                <th>Список груп</th>
+            </tr>
+            {% for group_year in groups %}
+            <tr>
+                <th>{{ group_year.year }} курс</th>
+            </tr>
+                {% for group in group_year %}
+            <tr>
+                <td><a href="/structure/group/{{ group.id }}/">{{ group }}</a></td>
+            </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+    </div>
+{% endblock content %}
