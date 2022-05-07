@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'groups_app',
-    'marks'
+    'marks',
+    'prediction',
 ]
 
 MIDDLEWARE = [
