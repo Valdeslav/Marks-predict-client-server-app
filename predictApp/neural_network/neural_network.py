@@ -1,7 +1,7 @@
 from tensorflow import keras
 import numpy as np
 
-from prediction import Predictor
+from predictApp.prediction import Predictor
 
 
 class NeuralNetworkPredictor(Predictor):

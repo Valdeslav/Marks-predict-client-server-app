@@ -2,8 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.http import require_POST
 
 from marks.models import Group, Student, Subject
-from groups_app.models import Speciality
-
+from .predictor_module.main import predict_marks
 
 
 def select_values_to_predict(request, group_id):
@@ -28,5 +27,14 @@ def make_prediction(request, group_id):
     subject_ids = request.POST['subject_id_list'].split(',')
     student_ids = [int(i) for i in student_ids]
     subject_ids = [int(i) for i in subject_ids]
-    print(student_ids)
+    predictions = predict_marks(group_id, student_ids, subject_ids)
+    subjects = Subject.objects.filter(pk__in=subject_ids).order_by('pk')
+    group = Group.objects.get(pk=group_id)
+
+    return render(request, "prediction/prediction.html",
+                  context={
+                      'group': group,
+                      'subjects': subjects,
+                      'predictions': predictions
+                  })
 
