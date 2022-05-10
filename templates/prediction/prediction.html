@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ group.number }}prediction{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% static "css/table.css" %}"/>
+{% endblock head %}
+{% block content %}
+    <div>
+    <h2>Предсказание для: {{ group.number }} - {{ group.speciality }}</h2>
+
+    </div>
+        <table border="1">
+            <caption>Список студентов</caption>
+            <thead>
+                <th>Имя студента</th>
+                {% for subject in subjects %}
+                    <th>{{ subject }}</th>
+                {% endfor %}
+            <thead/>
+            <tbody>
+                {% for predict in predictions %}
+                <tr>
+                    <td>{{ predict.student }}</td>
+                {% for mark in predict.marks %}
+                    <td>{{ mark }}</td>
+                {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+{% endblock content %}

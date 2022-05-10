@@ -1,0 +1,15 @@
+div.table-column {
+    display: inline-block;
+    margin-right: 10%;
+    vertical-align: top;
+}
+
+div.table-column span {
+    color: darkblue;
+    font-size: larger;
+}
+
+span.error-message{
+    color: red;
+    font-size: larger;
+}

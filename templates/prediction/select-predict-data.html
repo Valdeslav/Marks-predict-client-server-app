@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}prediction{% endblock title %}
+{% block head %}
+    <link rel="stylesheet" href="{% static "css/select-predict-data.css" %}"/>
+{% endblock head %}
+{% block content %}
+    <div>
+    <h2>Сделать предсказание для группы: {{ group.number }} - {{ group.speciality }}</h2>
+            {% if message %}
+                <div >
+                    <p><span class="error-message">{{ message }}</span></p>
+                </div>
+            {% endif %}
+    <div>
+        <p><span>Выберите студентов и предметы для предсказания</span></p>
+    </div>
+        <form name="predict-data-form" action="/structure/group/{{ group.id }}/predict/" method="post" onsubmit="return createStudentsList();">
+        <div class="table-column">
+            <span>студенты:</span>
+            {% csrf_token %}
+            {% for student in students %}
+                <p><label>
+                    <input type="checkbox" name="student_id" value="{{ student.pk }}">
+                    {{ student }}
+                </label></p>
+            {% endfor %}
+            <input id="student_id_list" type="hidden" name="student_id_list" value="">
+        </div>
+        <div class="table-column">
+            <span>предметы:</span>
+            {% for subject in subjects %}
+                <p><label>
+                    <input type="checkbox" name="subject_id" value="{{ subject.pk }}">
+                    {{ subject }}
+                </label></p>
+            {% endfor %}
+            <input id="subject_id_list" type="hidden" name="subject_id_list" value="">
+        </div>
+            <input type="submit" value="предсказать">
+        </form>
+    </div>
+    <script src="{% static "scripts/predict-data.js" %}"></script>
+{% endblock content %}

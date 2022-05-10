@@ -8,6 +8,7 @@ django = "*"
 psycopg2-binary = "*"
 tzdata = "*"
 pandas = "*"
+tensorflow = "*"
 
 [dev-packages]
 

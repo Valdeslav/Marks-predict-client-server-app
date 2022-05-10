@@ -6,6 +6,7 @@ from .models import Student, Subject, Mark
 from groups_app.models import Group
 from .forms import UploadDataFileForm
 from .importer.import_upload_data import import_data_from_file
+from marks.response_objects import StudentMarks
 
 
 def students_subjects_group_list(request, group_id):
@@ -17,15 +18,17 @@ def students_subjects_group_list(request, group_id):
     marks_by_students = []
     for student in students:
         marks = Mark.objects.defer('student').filter(student=student).order_by('subject__pk', 'subject__semester')
-        marks.student = student
-        marks_by_students.append(marks)
+        student_marks = StudentMarks(student)
+        for mark in marks:
+            student_marks.marks[mark.subject.id] = mark.mark
+        marks_by_students.append(student_marks)
 
     file_form = UploadDataFileForm()
     status = request.GET.get('status')
     return render(request, "structure/group/details.html",
                   context={'group': group,
                            'subjects': subjects,
-                           'marks': marks_by_students,
+                           'marks_by_st': marks_by_students,
                            'file_form': file_form,
                            'status': status
                            })

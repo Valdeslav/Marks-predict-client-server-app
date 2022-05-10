@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load dictionary_filters %}
 {% block title %}{{ group.number }} group{% endblock title %}
 {% block head %}
     <link rel="stylesheet" href="{% static "css/table.css" %}"/>
@@ -22,11 +23,16 @@
                 {% endfor %}
             <thead/>
             <tbody>
-                {% for marks_arr in marks %}
+                {% for marks_dict in marks_by_st %}
                 <tr>
-                    <td>{{ marks_arr.student }}</td>
-                {% for mark in marks_arr %}
-                    <td>{{ mark.mark }}</td>
+                    <td>{{ marks_dict.student }}</td>
+                {% for subject in subjects %}
+                    {% if marks_dict.marks|dict_get_value:subject.id %}
+                    <td>{{ marks_dict.marks|dict_get_value:subject.id }}</td>
+                    {% else %}
+                    <td class="empty"></td>
+                    {% endif %}
+
                 {% endfor %}
                 </tr>
                 {% endfor %}
@@ -39,6 +45,9 @@
             {{ file_form }}
             <input type="submit" value="импорт">
         </form>
+    </div>
+    <div>
+        <a href="/structure/group/{{ group.pk }}/create-prediction/">сделать предсказание</a>
     </div>
     </div>
 {% endblock content %}

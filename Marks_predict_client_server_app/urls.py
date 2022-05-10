@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('structure/', include('groups_app.urls')),
     path('structure/', include('marks.urls')),
+    path('structure/', include('prediction.urls')),
 ]
