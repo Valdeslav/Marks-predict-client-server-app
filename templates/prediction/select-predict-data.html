@@ -7,12 +7,11 @@
 {% block content %}
     <div>
     <h2>Сделать предсказание для группы: {{ group.number }} - {{ group.speciality }}</h2>
-            {% if status %}
-                <div>
-                    <p><span>Данные успешно загружены</span></p>
+            {% if message %}
+                <div >
+                    <p><span class="error-message">{{ message }}</span></p>
+                </div>
             {% endif %}
-
-    </div>
     <div>
         <p><span>Выберите студентов и предметы для предсказания</span></p>
     </div>

@@ -5,14 +5,12 @@ from predictApp.neural_network.neural_network import NeuralNetworkPredictor
 
 
 def predict_marks(group_id, student_ids, subject_ids):
-    dataloader = NeuralDataLoader()
-    dataloader.select_predict_data(group_id, student_ids, subject_ids)
-    dataloader.prepare_train_all_subj_marks()
+    dataloader = NeuralDataLoader(student_ids, subject_ids)
     predictor = NeuralNetworkPredictor()
     predictions = []
 
     while dataloader.has_data_to_predict():
-        train_all_subj_scores, train_targ_subj_scores = dataloader.prepare_train_data()
+        train_all_subj_scores, train_targ_subj_scores, test_all_subj_scores = dataloader.prepare_prediction_data()
         test_all_subj_scores = dataloader.prepare_test_data()
         predictor.create_model(train_all_subj_scores, train_targ_subj_scores)
         pred = predictor.predict(test_all_subj_scores)

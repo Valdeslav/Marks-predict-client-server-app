@@ -6,3 +6,7 @@ td, th {
     padding: 3px;
     border: 1px solid black;
    }
+
+td.empty {
+    background-color: red;
+}

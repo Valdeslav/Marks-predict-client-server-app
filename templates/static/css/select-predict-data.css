@@ -8,3 +8,8 @@ div.table-column span {
     color: darkblue;
     font-size: larger;
 }
+
+span.error-message{
+    color: red;
+    font-size: larger;
+}
