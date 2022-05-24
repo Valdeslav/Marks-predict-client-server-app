@@ -1,10 +1,13 @@
 table {
-    border-collapse: collapse; 
+    border-collapse: collapse;
+    overflow: scroll;
+   overflow-x:hidden;
    }
 
 td, th {
-    padding: 3px;
+    padding: 0;
     border: 1px solid black;
+    align: center;
    }
 
 td.empty {
