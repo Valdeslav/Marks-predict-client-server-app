@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
 from .models import Student, Subject, Mark
 from groups_app.models import Group
@@ -9,6 +10,7 @@ from .importer.import_upload_data import import_data_from_file
 from marks.response_objects import StudentMarks
 
 
+@login_required
 def students_subjects_group_list(request, group_id):
     """getting a list of students and subjects of group.
     render the form to upload file with student's marks"""
@@ -34,6 +36,7 @@ def students_subjects_group_list(request, group_id):
                            })
 
 
+@login_required
 @require_POST
 def upload_marks_file(request, group_id):
     "handler for upload file with information about student's marks on server"

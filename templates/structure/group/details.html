@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{% static "css/table.css" %}"/>
 {% endblock head %}
 {% block content %}
-    <div>
+<div>
     <h2>{{ group.number }} - {{ group.speciality }}</h2>
             {% if status %}
                 <div>
@@ -38,16 +38,32 @@
                 {% endfor %}
             </tbody>
         </table>
-    <div>
-        <p><span>Импортировать данные об оценках из файла</span></p>
-        <form action="/structure/group/{{ group.pk }}/upload/" method="post" enctype="multipart/form-data">
+
+  <div id="accordion">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Импортировать данные об оценках из файла
+            </button>
+          </h5>
+        </div>
+
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+            <form action="/structure/group/{{ group.pk }}/upload/" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ file_form }}
             <input type="submit" value="импорт">
         </form>
-    </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+
     <div>
-        <a class="btn btn-primary" href="/structure/group/{{ group.pk }}/create-prediction/">сделать предсказание</a>
+        <a class="btn btn-primary button" href="/structure/group/{{ group.pk }}/create-prediction/">сделать предсказание</a>
     </div>
-    </div>
+</div>
 {% endblock content %}

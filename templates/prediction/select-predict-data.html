@@ -19,9 +19,13 @@
         <div class="table-column">
             <span>студенты:</span>
             {% csrf_token %}
+            <p><label>
+                <input type="checkbox" id="check_all_students" onclick="">
+                <strong><u>Выбрать всех студентов</u></strong>
+            </label></p>
             {% for student in students %}
                 <p><label>
-                    <input type="checkbox" name="student_id" value="{{ student.pk }}">
+                    <input type="checkbox" name="student_id" value="{{ student.pk }}" onclick="handleStCheckbox">
                     {{ student }}
                 </label></p>
             {% endfor %}
@@ -29,6 +33,10 @@
         </div>
         <div class="table-column">
             <span>предметы:</span>
+            <p><label>
+                <input type="checkbox" id="check_all_subjects" >
+                <strong><u>Выбрать все предметы</u></strong>
+            </label></p>
             {% for subject in subjects %}
                 <p><label>
                     <input type="checkbox" name="subject_id" value="{{ subject.pk }}">

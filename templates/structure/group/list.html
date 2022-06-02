@@ -18,5 +18,9 @@
                 {% endfor %}
             {% endfor %}
         </table>
+    {% if request.user.role.role_id == 1 %}
+        <a class="btn btn-primary " href="/structure/group/create">Добавить группу</a>
+        <a class="btn btn-success " href="/structure/faculty/{{ faculty_id }}/edit">Редактировать факультет</a>
+    {% endif %}
     </div>
 {% endblock content %}

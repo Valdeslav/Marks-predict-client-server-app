@@ -1,8 +1,18 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth import authenticate, login, logout
-from urllib.parse import urlencode
+from django.contrib.auth.decorators import login_required
 from authentication.forms import UserRegistrationForm, LoginForm
+
+
+def admin_required(func):
+    """Decorator to mark that user required admin role to access view"""
+    def wrapped(request, **kwargs):
+        if request.user.role.role_id == 1:
+            return func(request, **kwargs)
+        else:
+            raise Http404()
+    return wrapped
 
 
 def user_login(request):
@@ -35,6 +45,9 @@ def user_logout(request):
             logout(request)
     return HttpResponseRedirect("/")
 
+
+@login_required
+@admin_required
 def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
@@ -42,8 +55,7 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            url_param = urlencode({'scmsg': 'Вы успешно зарегистрировались.\nТеперь вы можете войти в свой аккаунт'})
-            http_response = HttpResponseRedirect(f'/login?{url_param}')
+            http_response = HttpResponseRedirect('/')
 
             return http_response
     else:

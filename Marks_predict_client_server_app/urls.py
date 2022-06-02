@@ -23,5 +23,7 @@ urlpatterns = [
     path('structure/', include('marks.urls')),
     path('structure/', include('prediction.urls')),
     path('auth/', include('authentication.urls')),
-    re_path(r'\S*', RedirectView.as_view(url='/structure/faculty/list/')),
+    path('', RedirectView.as_view(url='/structure/faculty/list/')),
 ]
+
+handler404 = "Marks_predict_client_server_app.views.page_not_found_view"

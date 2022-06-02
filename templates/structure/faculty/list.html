@@ -13,5 +13,8 @@
             </tr>
             {% endfor %}
         </table>
+    {% if request.user.role.role_id == 1 %}
+        <a class="btn btn-primary " href="/structure/faculty/create">Добавить факультет</a>
+    {% endif %}
     </div>
 {% endblock content %}

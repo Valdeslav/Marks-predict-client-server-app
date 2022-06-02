@@ -1,6 +1,7 @@
 div.table-column {
     display: inline-block;
-    margin-right: 10%;
+    margin-left: 10pt;
+    margin-right: 20pt;
     vertical-align: top;
 }
 
