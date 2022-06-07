@@ -19,7 +19,7 @@
             {% endfor %}
         </table>
     {% if request.user.role.role_id == 1 %}
-        <a class="btn btn-primary " href="/structure/group/create/">Добавить группу</a>
+        <a class="btn btn-primary " href="/structure/group/edit/">Добавить группу</a>
         <a class="btn btn-success " href="/structure/faculty/edit/{{ faculty_id }}/">Редактировать факультет</a>
     {% endif %}
     </div>

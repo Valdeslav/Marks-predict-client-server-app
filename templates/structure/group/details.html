@@ -73,7 +73,7 @@
     <div>
         <a class="btn btn-primary button" href="/structure/group/{{ group.pk }}/create-prediction/">сделать предсказание</a>
         {% if request.user.role.role_id == 1 %}
-        <a class="btn btn-success button" href="/structure/group/{{ group.pk }}/edit/">Редактировать группу</a>
+        <a class="btn btn-success button" href="/structure/group/edit/{{ group.pk }}/">Редактировать группу</a>
         {% endif %}
     </div>
 </div>

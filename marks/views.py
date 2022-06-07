@@ -1,5 +1,7 @@
+from django.db.models import ProtectedError
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.utils.datastructures import MultiValueDictKeyError
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 
@@ -8,6 +10,8 @@ from groups_app.models import Group
 from .forms import UploadDataFileForm
 from .importer.import_upload_data import import_data_from_file
 from marks.response_objects import StudentMarks
+from authentication.views import admin_required
+from marks.forms import GroupForm
 
 
 @login_required
@@ -46,3 +50,46 @@ def upload_marks_file(request, group_id):
 
     return HttpResponseRedirect(f'/structure/group/{ group_id }/?status=success')
 
+
+@login_required
+@admin_required
+def edit_group(request, group_id=None):
+    if request.method == 'POST':
+        if group_id:
+            group = Group.objects.get(pk=group_id)
+            form = GroupForm(request.POST, instance=group)
+        else:
+            form = GroupForm(request.POST)
+        group = form.save()
+        return HttpResponseRedirect(f'/structure/faculty/{group.speciality.faculty_id}/group/list/')
+
+    else:
+        try:
+            message = request.GET['message']
+        except MultiValueDictKeyError:
+            message = None
+
+        if group_id:
+            faculty = Group.objects.get(pk=group_id)
+            form = GroupForm(instance=faculty)
+
+        else:
+            form = GroupForm()
+        return render(request,
+                      'structure/group/edit.html',
+                      context={
+                          'group_id': group_id,
+                          'form': form,
+                          'message': message
+                      })
+
+@login_required
+@admin_required
+def delete_group(request, group_id):
+    group = Group.objects.get(pk=group_id)
+    faculty_id = group.speciality.faculty_id
+    try:
+        group.delete()
+        return HttpResponseRedirect(f'/structure/faculty/{faculty_id}/group/list/')
+    except ProtectedError:
+        return HttpResponseRedirect(f'/structure/group/edit/{group_id}/?message=невозможно удалить группу')

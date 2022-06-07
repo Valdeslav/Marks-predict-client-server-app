@@ -1,3 +1,7 @@
+form {
+    display: inline;
+}
+
 h1 {
     width: 20cm;
 }
@@ -14,4 +18,12 @@ input.button {
 span.error-message{
     color: red;
     font-size: larger;
+}
+
+div.footer-form {
+    display: inline-flex;
+}
+
+a.button {
+    display: block;
 }
