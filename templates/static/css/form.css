@@ -1,0 +1,17 @@
+h1 {
+    width: 20cm;
+}
+
+div.row {
+    margin-top: 3cm;
+    width: 10cm;
+}
+
+input.button {
+    margin-top: 10pt;
+}
+
+span.error-message{
+    color: red;
+    font-size: larger;
+}
