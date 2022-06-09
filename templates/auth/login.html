@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Вход{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "css/form.css" %}"/>
+{% endblock head %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-8">
+            <h5 class="mt-2">Войдите с помощью формы</h5>
+            <hr class="mt-0 mb-4">
+            {% if message %}
+                <p class="text-danger">{{ message }}</p>
+            {% endif %}
+            {% if scmsg %}
+                <p class="text-success">{{ scmsg }}</p>
+            {% endif %}
+            <form action="." method="post">
+            {{ form|crispy}}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary button">Войти</button>
+            </form>
+        </div>
+        </div>
+    </div>
+{% endblock %}

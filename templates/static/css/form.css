@@ -1,0 +1,36 @@
+form {
+    display: inline;
+}
+
+h1 {
+    width: 20cm;
+}
+
+div.row {
+    margin-top: 3cm;
+    width: 10cm;
+}
+
+input.button {
+    margin-top: 10pt;
+}
+
+span.error-message{
+    color: red;
+    font-size: larger;
+}
+
+div.footer-form {
+    display: inline-flex;
+}
+
+a.button {
+    margin-top: 10pt;
+    margin-left: 10pt;
+}
+
+a.left-button {
+    margin-top: 10pt;
+    margin-left: 45pt;
+}
+

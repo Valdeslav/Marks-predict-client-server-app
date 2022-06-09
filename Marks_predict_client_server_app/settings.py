@@ -27,9 +27,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'groups_app',
     'marks',
     'prediction',
+    'authentication'
 ]
 
 MIDDLEWARE = [
@@ -81,6 +83,10 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = 'authentication.User'
+
+LOGIN_URL = '/auth/login/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

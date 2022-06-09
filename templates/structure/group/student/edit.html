@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+    {% if student_id %}
+        Редактирование студента
+    {% else %}
+        Добавить студента
+    {% endif %}
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "css/form.css" %}"/>
+{% endblock head %}
+
+{% block content %}
+    <div class="container">
+    <div class="row justify-content-center">
+        {% if message %}
+        <div >
+            <p><span class="error-message">{{ message }}</span></p>
+        </div>
+    {% endif %}
+        <div class="col-8">
+            <h4 class="mt-2">
+                {% if student_id %}
+                    Редактирование студента
+                {% else %}
+                    Добавить студента
+                {% endif %}
+            </h4>
+            <hr class="mt-0 mb-4">
+<form action="." method="post">
+    {{ form|crispy }}
+    {% csrf_token %}
+    <p>
+        <input type="submit" class="btn btn-primary button" value="Сохранить">
+    </p>
+</form>
+        </div>
+    </div>
+    {% if student_id %}
+        <a class="btn btn-danger left-button" href="/structure/student/delete/{{ student_id }}/">Удалить студента</a>
+        <a class="btn btn-success button" href="/structure/student/{{ student_id }}/marks/">оценки</a>
+        {% endif %}
+    </div>
+    </div>
+{% endblock %}

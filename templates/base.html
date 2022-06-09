@@ -6,6 +6,9 @@
         <title>{% block title %}{% endblock title %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static "css/base.css"%}">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         {% block head %}{% endblock head %}
     </head>
 
@@ -21,21 +24,26 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/structure/faculty/list/">Список факультетов<span class="sr-only">(current)</span></a>
             </li>
+            {% if request.user.role.role_id == 1 %}
+            <li class="nav-item active">
+                <a class="nav-link" href="/auth/register/">Регистрация пользователей<span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
             {% block navitems %}
             {% endblock %}
             {% if request.user.is_authenticated %}
-                <li class="nav-item dropdown active">
+                 <li class="nav-item dropdown active">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ request.user.first_name }} {{ request.user.last_name }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">Настройки аккаунта</a>
-                        <a class="dropdown-item" href="/logout">Выйти</a>
+                        <a class="dropdown-item" href="/auth/logout">Выйти</a>
                     </div>
                 </li>
             {% else %}
                 <li class="nav-item active">
-                <a class="nav-link" href="/login">Вход/Регистрация</a>
+                <a class="nav-link" href="/auth/login">Вход/Регистрация</a>
                 </li>
             {% endif %}
         </ul>

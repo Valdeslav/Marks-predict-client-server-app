@@ -13,3 +13,11 @@ td, th {
 td.empty {
     background-color: red;
 }
+
+a.button {
+    margin-top: 10pt;
+}
+
+a.student {
+    
+}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+    {% if speciality_id %}
+        Редактирование специальности
+    {% else %}
+        Добавить специальность
+    {% endif %}
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "css/form.css" %}"/>
+    <style>
+    a.button {
+        margin-top: 10pt;
+        margin-left: 0pt;
+    }
+    </style>
+{% endblock head %}
+
+
+{% block content %}
+    <div class="container">
+    <div class="row justify-content-center">
+        {% if message %}
+        <div >
+            <p><span class="error-message">{{ message }}</span></p>
+        </div>
+    {% endif %}
+        <div class="col-8">
+            <h4 class="mt-2">
+                {% if speciality_id %}
+                    Редактирование специальности
+                {% else %}
+                    Добавить специальность
+                {% endif %}
+            </h4>
+            <hr class="mt-0 mb-4">
+<form action="." method="post">
+    {{ form|crispy }}
+    {% csrf_token %}
+    <p>
+        <input type="submit" class="btn btn-primary button" value="Сохранить">
+        {% if speciality_id %}
+        <a class="btn btn-danger button" href="/structure/speciality/delete/{{ speciality_id }}/">Удалить специальность</a>
+        {% endif %}
+    </p>
+</form>
+        </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}

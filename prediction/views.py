@@ -1,12 +1,14 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.utils.datastructures import MultiValueDictKeyError
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
 from marks.models import Group, Student, Subject
 from .predictor_module.exceptions import EmptyListOfSubjectsWithMark
 from .predictor_module.main import predict_marks
 
 
+@login_required
 def select_values_to_predict(request, group_id):
     """getting a list of students, which didn't have marks
      in some subjects. Also getting these subjects"""
@@ -27,6 +29,8 @@ def select_values_to_predict(request, group_id):
                       'message': message
                   })
 
+
+@login_required
 @require_POST
 def make_prediction(request, group_id):
     """parse the request to find which marks predict"""

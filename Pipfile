@@ -9,6 +9,7 @@ psycopg2-binary = "*"
 tzdata = "*"
 pandas = "*"
 tensorflow = "*"
+django-crispy-forms = "*"
 
 [dev-packages]
 
