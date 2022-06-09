@@ -27,7 +27,7 @@
                 <tr>
                     <td ><div>
                         {% if request.user.role.role_id == 1 %}
-                            <a class="student" href="/structure/student/{{ marks_dict.student.pk }}/">
+                            <a class="student" href="/structure/student/edit/{{ marks_dict.student.pk }}/">
                         {% endif %}
                         {{ marks_dict.student }}
                         {% if  request.user.role.role_id == 1%}

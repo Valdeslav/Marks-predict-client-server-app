@@ -3,10 +3,10 @@
 {% load static %}
 
 {% block title %}
-    {% if faculty_id %}
-        Редактирование факультета
+    {% if student_id %}
+        Редактирование студента
     {% else %}
-        Создать новый факультет
+        Добавить студента
     {% endif %}
 {% endblock %}
 
@@ -24,29 +24,26 @@
     {% endif %}
         <div class="col-8">
             <h4 class="mt-2">
-                {% if faculty_id %}
-                    Редактирование факультета
+                {% if student_id %}
+                    Редактирование студента
                 {% else %}
-                    Создать новый факультет
+                    Добавить студента
                 {% endif %}
             </h4>
             <hr class="mt-0 mb-4">
 <form action="." method="post">
     {{ form|crispy }}
     {% csrf_token %}
-    <div class="footer-form">
     <p>
         <input type="submit" class="btn btn-primary button" value="Сохранить">
     </p>
-    </div>
 </form>
         </div>
     </div>
-    {% if faculty_id %}
-        <a class="btn btn-danger left-button" href="/structure/faculty/delete/{{ faculty_id }}/">Удалить факультет</a>
-        <a class="btn btn-success button" href="/structure/faculty/{{ faculty_id }}/speciality/list/">Специальности</a>
+    {% if student_id %}
+        <a class="btn btn-danger left-button" href="/structure/student/delete/{{ student_id }}/">Удалить студента</a>
+        <a class="btn btn-success button" href="/structure/student/{{ student_id }}/marks/">оценки</a>
         {% endif %}
     </div>
-
-
+    </div>
 {% endblock %}

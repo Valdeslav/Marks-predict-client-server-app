@@ -3,16 +3,23 @@
 {% load static %}
 
 {% block title %}
-    {% if faculty_id %}
-        Редактирование факультета
+    {% if mark_id %}
+        Редактирование оценки
     {% else %}
-        Создать новый факультет
+        Добавить оценку
     {% endif %}
 {% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static "css/form.css" %}"/>
+    <style>
+    a.button {
+        margin-top: 10pt;
+        margin-left: 0pt;
+    }
+    </style>
 {% endblock head %}
+
 
 {% block content %}
     <div class="container">
@@ -24,29 +31,25 @@
     {% endif %}
         <div class="col-8">
             <h4 class="mt-2">
-                {% if faculty_id %}
-                    Редактирование факультета
+                {% if mark_id %}
+                    Редактирование оценки
                 {% else %}
-                    Создать новый факультет
+                    Добавить оценку
                 {% endif %}
             </h4>
             <hr class="mt-0 mb-4">
 <form action="." method="post">
     {{ form|crispy }}
     {% csrf_token %}
-    <div class="footer-form">
     <p>
         <input type="submit" class="btn btn-primary button" value="Сохранить">
+        {% if mark_id %}
+        <a class="btn btn-danger button" href="/structure/mark/delete/{{ mark_id }}/">Удалить оценку</a>
+        {% endif %}
     </p>
-    </div>
 </form>
         </div>
     </div>
-    {% if faculty_id %}
-        <a class="btn btn-danger left-button" href="/structure/faculty/delete/{{ faculty_id }}/">Удалить факультет</a>
-        <a class="btn btn-success button" href="/structure/faculty/{{ faculty_id }}/speciality/list/">Специальности</a>
-        {% endif %}
     </div>
-
-
+    </div>
 {% endblock %}

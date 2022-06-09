@@ -1,4 +1,4 @@
-from django.db.models import ProtectedError
+from django.db.models import ProtectedError, RestrictedError
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.utils.datastructures import MultiValueDictKeyError
@@ -11,7 +11,7 @@ from .forms import UploadDataFileForm
 from .importer.import_upload_data import import_data_from_file
 from marks.response_objects import StudentMarks
 from authentication.views import admin_required
-from marks.forms import GroupForm
+from marks.forms import GroupForm, StudentForm, MarkForm
 
 
 @login_required
@@ -70,8 +70,8 @@ def edit_group(request, group_id=None):
             message = None
 
         if group_id:
-            faculty = Group.objects.get(pk=group_id)
-            form = GroupForm(instance=faculty)
+            group = Group.objects.get(pk=group_id)
+            form = GroupForm(instance=group)
 
         else:
             form = GroupForm()
@@ -83,6 +83,7 @@ def edit_group(request, group_id=None):
                           'message': message
                       })
 
+
 @login_required
 @admin_required
 def delete_group(request, group_id):
@@ -93,3 +94,109 @@ def delete_group(request, group_id):
         return HttpResponseRedirect(f'/structure/faculty/{faculty_id}/group/list/')
     except ProtectedError:
         return HttpResponseRedirect(f'/structure/group/edit/{group_id}/?message=невозможно удалить группу')
+
+
+@login_required
+@admin_required
+def edit_student(request, student_id=None):
+    if request.method == 'POST':
+        if student_id:
+            student = Student.objects.get(pk=student_id)
+            form = StudentForm(request.POST, instance=student)
+        else:
+            form = StudentForm(request.POST)
+        student = form.save()
+        return HttpResponseRedirect(f'/structure/group/{student.group_id}/')
+
+    else:
+        try:
+            message = request.GET['message']
+        except MultiValueDictKeyError:
+            message = None
+
+        if student_id:
+            student = Student.objects.get(pk=student_id)
+            form = StudentForm(instance=student)
+
+        else:
+            form = StudentForm()
+        return render(request,
+                      'structure/group/student/edit.html',
+                      context={
+                          'student_id': student_id,
+                          'form': form,
+                          'message': message
+                      })
+
+
+@login_required
+@admin_required
+def delete_student(request, student_id):
+    student = Student.objects.get(pk=student_id)
+    group_id = student.group_id
+    try:
+        student.delete()
+        return HttpResponseRedirect(f'/structure/group/{group_id}/')
+    except ProtectedError:
+        return HttpResponseRedirect(f'/structure/student/edit/{student_id}/?message=невозможно удалить студента')
+    except RestrictedError:
+        return HttpResponseRedirect(f'/structure/student/edit/{student_id}/?message=невозможно удалить студента')
+
+
+@login_required
+@admin_required
+def mark_list(request, student_id):
+    """getting a list of marks of selected student"""
+    student = Student.objects.get(pk=student_id)
+    marks = Mark.objects.filter(student_id=student_id)
+
+    return render(request,
+                  'structure/mark/list.html',
+                  context={"marks": marks, "student": student})
+
+
+@login_required
+@admin_required
+def edit_mark(request, mark_id=None):
+    if request.method == 'POST':
+        if mark_id:
+            mark = Mark.objects.get(pk=mark_id)
+            form = MarkForm(request.POST, instance=mark)
+        else:
+            form = MarkForm(request.POST)
+        mark = form.save()
+        return HttpResponseRedirect(f'/structure/student/{mark.student_id}/marks/')
+
+    else:
+        try:
+            message = request.GET['message']
+        except MultiValueDictKeyError:
+            message = None
+
+        if mark_id:
+            mark = Mark.objects.get(pk=mark_id)
+            form = MarkForm(instance=mark)
+
+        else:
+            form = MarkForm()
+        return render(request,
+                      'structure/mark/edit.html',
+                      context={
+                          'mark_id': mark_id,
+                          'form': form,
+                          'message': message
+                      })
+
+
+@login_required
+@admin_required
+def delete_mark(request, mark_id):
+    mark = Mark.objects.get(pk=mark_id)
+    student_id = mark.student_id
+    try:
+        mark.delete()
+        return HttpResponseRedirect(f'/structure/student/{student_id}/marks/')
+    except ProtectedError:
+        return HttpResponseRedirect(f'/structure/mark/edit/{mark_id}/?message=невозможно удалить оценку')
+    except RestrictedError:
+        return HttpResponseRedirect(f'/structure/mark/edit/{mark_id}/?message=невозможно удалить оценку')

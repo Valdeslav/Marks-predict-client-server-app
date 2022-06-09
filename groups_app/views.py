@@ -6,7 +6,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 
 from groups_app.models import Faculty, Speciality, Group
 from authentication.views import admin_required
-from groups_app.forms import FacultyForm
+from groups_app.forms import FacultyForm, SpecialityForm
 
 
 @login_required
@@ -18,7 +18,7 @@ def faculty_list(request):
 
 @login_required
 def group_list(request, faculty_id):
-    """getting a list of specialities of selected faculty"""
+    """getting a list of groups of selected faculty"""
     years_obj = Group.objects.only('year').filter(speciality__faculty_id=faculty_id).distinct('year').order_by('year')
     groups_by_years = []
     for year_obj in years_obj:
@@ -74,3 +74,57 @@ def delete_faculty(request, faculty_id):
         return  HttpResponseRedirect(f'/structure/faculty/edit/{faculty_id}?message=невозможно удалить факультет')
 
 
+@login_required
+@admin_required
+def speciality_list(request, faculty_id):
+    """getting a list of specialities of selected faculty"""
+    faculty = Faculty.objects.get(pk=faculty_id)
+    specialities = Speciality.objects.filter(faculty_id=faculty_id)
+
+    return render(request, "structure/speciality/list.html",
+                  context={"specialities": specialities, "faculty": faculty})
+
+
+@login_required
+@admin_required
+def edit_speciality(request, speciality_id=None):
+    if request.method == 'POST':
+        if speciality_id:
+            speciality = Speciality.objects.get(pk=speciality_id)
+            form = SpecialityForm(request.POST, instance=speciality)
+        else:
+            form = SpecialityForm(request.POST)
+        speciality = form.save()
+        return HttpResponseRedirect(f'/structure/faculty/{speciality.faculty_id}/speciality/list/')
+
+    else:
+        try:
+            message = request.GET['message']
+        except MultiValueDictKeyError:
+            message = None
+
+        if speciality_id:
+            faculty = Speciality.objects.get(pk=speciality_id)
+            form = SpecialityForm(instance=faculty)
+
+        else:
+            form = SpecialityForm()
+        return render(request,
+                      'structure/speciality/edit.html',
+                      context={
+                          'speciality_id': speciality_id,
+                          'form': form,
+                          'message': message
+                      })
+
+
+@login_required
+@admin_required
+def delete_speciality(request, speciality_id):
+    speciality = Speciality.objects.get(pk=speciality_id)
+    faculty_id = speciality.faculty_id
+    try:
+        speciality.delete()
+        return HttpResponseRedirect(f'/structure/faculty/{faculty_id}/speciality/list/')
+    except ProtectedError:
+        return HttpResponseRedirect(f'/structure/speciality/edit/{speciality_id}/?message=невозможно удалить специальность')

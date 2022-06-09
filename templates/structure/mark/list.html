@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}список оценок{% endblock title %}
+{% block content %}
+    <div>
+        <table class="table table-hover border-bottom">
+            <tr>
+                <th class="table-primary" colspan="2">{{ student }}: cписок оценок </th>
+            </tr>
+            {% for mark in marks%}
+                <tr>
+                    <td>
+                        <a href="/structure/mark/edit/{{ mark.id }}/">{{ mark.subject }}</a>
+                    </td>
+                    <td>
+                        <a href="/structure/mark/edit/{{ mark.id }}/">{{ mark.mark }}</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% if request.user.role.role_id == 1 %}
+        <a class="btn btn-primary " href="/structure/mark/edit/">Добавить оценку</a>
+    {% endif %}
+    </div>
+{% endblock content %}

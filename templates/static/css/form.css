@@ -25,5 +25,12 @@ div.footer-form {
 }
 
 a.button {
-    display: block;
+    margin-top: 10pt;
+    margin-left: 10pt;
 }
+
+a.left-button {
+    margin-top: 10pt;
+    margin-left: 45pt;
+}
+
