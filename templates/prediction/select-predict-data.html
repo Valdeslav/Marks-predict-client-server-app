@@ -45,7 +45,10 @@
             {% endfor %}
             <input id="subject_id_list" type="hidden" name="subject_id_list" value="">
         </div>
-            <input type="submit" value="предсказать">
+        <div class="table-column">
+            <input class="btn btn-primary" name="send" type="submit" value="предсказать c помощью нейросети"><br>
+            <input class="btn btn-primary button" name="send" type="submit" value="предсказать c помощью регрессии">
+        </div>
         </form>
     </div>
     <script src="{% static "scripts/predict-data.js" %}"></script>

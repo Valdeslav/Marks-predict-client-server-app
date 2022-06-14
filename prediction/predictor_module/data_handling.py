@@ -85,3 +85,17 @@ class NeuralDataLoader(DataLoader):
         self.prepare_train_all_subj_marks()
 
         return self.train_all_subj_marks, train_targ_subj_marks, self.prepare_test_data()
+
+
+class RegressionDataLoader(DataLoader):
+
+    def __init__(self, student_ids, subject_ids):
+        super().__init__(student_ids, subject_ids)
+        self.neural_dataloader = NeuralDataLoader(self.target_students_ids, self.target_subjects_ids)
+
+    def prepare_prediction_data(self):
+        train_all_subj_marks, train_targ_subj_marks, test_all_subj_marks = self.neural_dataloader.prepare_prediction_data()
+        train_all_subj_marks = train_all_subj_marks.transpose()
+        test_all_subj_marks = test_all_subj_marks.transpose()
+        self.predicted_count += 1
+        return train_all_subj_marks, train_targ_subj_marks, test_all_subj_marks
