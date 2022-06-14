@@ -38,17 +38,18 @@ def make_prediction(request, group_id):
     subject_ids = request.POST['subject_id_list'].split(',')
     student_ids = [int(i) for i in student_ids]
     subject_ids = [int(i) for i in subject_ids]
+    print()
     try:
-        predictions = predict_marks(group_id, student_ids, subject_ids)
+        predictions = predict_marks(group_id, student_ids, subject_ids, request.POST['send'])
         subjects = Subject.objects.filter(pk__in=subject_ids).order_by('pk')
         group = Group.objects.get(pk=group_id)
 
         return render(request, "prediction/prediction.html",
-                  context={
-                      'group': group,
-                      'subjects': subjects,
-                      'predictions': predictions
-                  })
+                    context={
+                        'group': group,
+                        'subjects': subjects,
+                        'predictions': predictions
+                    })
     except EmptyListOfSubjectsWithMark:
         return HttpResponseRedirect(f'/structure/group/{group_id}/create-prediction/?message=недостаточно данных для предсказания')
 

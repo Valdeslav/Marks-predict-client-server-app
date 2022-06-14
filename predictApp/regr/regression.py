@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
-from prediction import Predictor
+from predictApp.prediction import Predictor
 
 
 class RegressionPrediction(Predictor):

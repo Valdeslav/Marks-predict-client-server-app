@@ -14,3 +14,7 @@ span.error-message{
     color: red;
     font-size: larger;
 }
+
+input.button {
+    margin-top: 10pt;
+}
