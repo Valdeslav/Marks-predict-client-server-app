@@ -5,7 +5,7 @@
     <div>
         <table class="table table-hover border-bottom">
             <tr>
-                <th class="table-primary">Список груп</th>
+                <th class="table-primary">Список груп - {{ faculty }}</th>
             </tr>
             {% for group_year in groups %}
             <tr>
@@ -20,7 +20,7 @@
         </table>
     {% if request.user.role.role_id == 1 %}
         <a class="btn btn-primary " href="/structure/group/edit/">Добавить группу</a>
-        <a class="btn btn-success " href="/structure/faculty/edit/{{ faculty_id }}/">Редактировать факультет</a>
+        <a class="btn btn-success " href="/structure/faculty/edit/{{ faculty.pk }}/">Редактировать факультет</a>
     {% endif %}
     </div>
 {% endblock content %}

@@ -25,5 +25,7 @@ class RegressionPrediction(Predictor):
     def predict(self, x):
         x = x[self.max_cor_index]
         x = x.reshape((-1, 1))
-        return self.model.predict(x)
+        result = self.model.predict(x)
+        return [np.round(i) for i in result]
+
 

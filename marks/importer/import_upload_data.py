@@ -67,7 +67,10 @@ def parse_into_db(file_data: pd.DataFrame, group_id):
         for file_mark in file_data.iloc[student_row]:
             mark = Mark.objects.filter(student=student, subject=file_subjects[subject_index])
             if not mark:
-                Mark(student=student, subject=file_subjects[subject_index], mark=file_mark).save()
+                try:
+                    Mark(student=student, subject=file_subjects[subject_index], mark=file_mark).save()
+                except ValueError:
+                    pass
             else:
                 mark = mark[0]
                 mark.mark = file_mark
